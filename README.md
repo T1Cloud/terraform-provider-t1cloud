@@ -74,7 +74,7 @@ provider "t1" {
 ```
 resource "t1_compute_instance" "vm" {
   boot_volume = {
-    size                  = 10
+    size = 10
   }
   flavor = {
     cores  = 1
@@ -100,7 +100,7 @@ resource "t1_compute_ssh_key" "ssh" {
   name  = "foo-ssh"
   login = "root"
   publick_keys = [
-    "my-public-key",
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDOB+yaqgoGadDHTuNd5SEi5h1/weW6ZLga008B9GFGCQPJQ5y6hViHfh8qdOREJpkk2yKPntzKBE9Gx41zDCvucJAejqO7SAxUV1KIvNTVtooBrpPsc/I5fyTUc1XZ+2RfyJTIuqbeM2Eu7r0+obM5s/GZJnzmvG+5yLId+uNVRQ==",
   ]
 }
 
