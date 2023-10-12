@@ -68,7 +68,7 @@ resource "t1_vpc_subnet" "subnet1" {
 ### Required
 
 - `boot_volume` (Attributes) The boot volume config for VM instance. (see [below for nested schema](#nestedatt--boot_volume))
-- `flavor` (Attributes) Desired cores and memory configuration for VM instance. Changing this resizes the existing VM. (see [below for nested schema](#nestedatt--flavor))
+- `flavor` (Attributes) Desired cores and memory configuration for VM instance. Changing this resizes the existing VM. To perform resize required switch VM `state` to `off` (see [below for nested schema](#nestedatt--flavor))
 - `image` (Attributes) Desired image for VM instance. Changing this recreates a VM. (see [below for nested schema](#nestedatt--image))
 - `network_interface` (Attributes) Configuration of network interface attached to VM instance. (see [below for nested schema](#nestedatt--network_interface))
 - `ssh_keys` (List of String) List of ssh records ID, which public keys will be granted access to VM instance.
@@ -78,6 +78,7 @@ resource "t1_vpc_subnet" "subnet1" {
 - `description` (String) An optional description of the VM instance.
 - `name` (String) A name for the VM instance. Changing this creates a new VM.
 - `region` (String) The region where the VM will be placed.
+- `state` (String) Allows to turn off or turn on the VM.
 - `zone` (String) The availability zone of region where the VM will be created.
 
 ### Read-Only
@@ -120,7 +121,7 @@ Read-Only:
 
 Required:
 
-- `distro` (String) Name of OS distro(ubuntu, windows, alt, astra, etc.).
+- `distro` (String) Name of OS distro(ubuntu, windows, altlinux, astra, etc.).
 - `version` (String) Verison of distro image.
 
 Read-Only:
@@ -135,12 +136,12 @@ Read-Only:
 
 Required:
 
-- `security_group_ids` (List of String) Security group IDs for network interface.
 - `subnet_id` (String) ID of the subnet to attach this interface to.
 
 Optional:
 
 - `fixed_ip` (String) When you enter an IP address, it is checked to see if it is busy and whether it belongs to the selected subnet. If empty, the address will be automatically assigned from the specified subnet.
+- `security_group_ids` (List of String) Security group IDs for network interface.
 
 Read-Only:
 

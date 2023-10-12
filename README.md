@@ -25,6 +25,9 @@ Terraform провайдер позволяет управлять множес�
     - [t1_vpc_vip](docs/resources/vpc_vip.md) - Виртуальные IP адреса
     - [t1_vpc_security_group](docs/resources/vpc_security_group.md) - Группы безопаcности
     - [t1_vpc_security_group_rule](docs/resources/vpc_security_group_rule.md) - Правила группы безопаcности
+- Источники данных:
+    - [t1_vpc_security_group](docs/data-sources/vpc_security_group.md) - Группы безопаности
+    - [t1_compute_ssh_key](docs/data-sources/ssh_keys.md) - SSH-ключи
 
 ## Начало работы
 
