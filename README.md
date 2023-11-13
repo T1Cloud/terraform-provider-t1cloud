@@ -4,11 +4,11 @@
 
 Terraform провайдер позволяет управлять множеством ресурсов в T1 Cloud. Пользователи могут взаимодействовать с T1 Cloud, объявляя ресурсы(resources) или вызывая источники данных(data sources).
 
-## Requirements
+## Требования
 
 - [Terraform Core](https://developer.hashicorp.com/terraform/downloads) >= 1.5
 
-## Документация
+## Ресурсы и источники данных
 
 - Ресурсы:
     - [t1_compute_instance](docs/resources/compute_instance.md) - Серверы
