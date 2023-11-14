@@ -34,3 +34,11 @@ resource "t1_compute_ssh_key" "foo" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+terraform import t1_compute_ssh_key.example_key my-key-name
+```

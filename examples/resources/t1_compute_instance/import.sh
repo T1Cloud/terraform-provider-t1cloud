@@ -1,0 +1,1 @@
+terraform import t1_compute_instance.example instance-order_id

@@ -1,0 +1,1 @@
+terraform import t1_compute_volume.example volume-item_id

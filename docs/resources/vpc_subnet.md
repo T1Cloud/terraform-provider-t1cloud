@@ -22,7 +22,7 @@ resource "t1_vpc_subnet" "subnet1" {
   name        = "foo-subnet"
   description = "description for my subnet"
   region      = "ru-central1"
-  cidr        = "10.128.0.1/24"
+  cidr        = "10.128.1.0/24"
   network_id  = t1_vpc_network.foo.id
 }
 ```
@@ -35,12 +35,15 @@ resource "t1_vpc_subnet" "subnet1" {
 - `cidr` (String) The subnet size is determined by the classless addressing method: the maximum CIDR size is /16, the minimum is /28. IPv4 CIDR must match one of private IPs [10.0-255.x.x/prefix, 172.16.x.x/prefix, 192.168.x.x/prefix], where prefix is value from /16 to /28.
 - `name` (String) Name of the subnet provided by the client.
 - `network_id` (String) ID of the network this subnet belongs to.
+- `region` (String) Region where this subnet will be created.
 
 ### Optional
 
 - `description` (String) An optional description of the subnet.
-- `region` (String) Region where this subnet will be created.
 
 ### Read-Only
 
+- `dhcp` (Boolean) Flag determine enabling of DHCP option. (Read Only for now, always `true`)
+- `gateway_ip` (String) A gateway IP refers to a device on a network, which sends local network traffic to other networks
 - `id` (String) The ID of created subnet.
+- `status` (String) Current status of this subnet.

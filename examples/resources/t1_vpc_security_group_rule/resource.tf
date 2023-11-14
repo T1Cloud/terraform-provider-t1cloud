@@ -3,7 +3,7 @@ resource "t1_vpc_security_group" "foo" {
 }
 
 resource "t1_vpc_security_group_rule" "foo" {
-  security_group_id = t1_vpc_security_group.bar.id
+  security_group_id = t1_vpc_security_group.foo.id
   direction         = "egress"
   protocol          = "any"
   ethertype         = "IPv6"
@@ -13,16 +13,16 @@ resource "t1_vpc_security_group_rule" "foo" {
 }
 
 resource "t1_vpc_security_group_rule" "bar" {
-  security_group_id = t1_vpc_security_group.bar.id
+  security_group_id = t1_vpc_security_group.foo.id
   direction         = "egress"
   protocol          = "tcp"
   ethertype         = "IPv4"
   from_port         = 80
-  remote_group_id   = t1_vpc_security_group.bar.id
+  remote_group_id   = t1_vpc_security_group.foo.id
 }
 
 resource "t1_vpc_security_group_rule" "fizz" {
-  security_group_id = t1_vpc_security_group.bar.id
+  security_group_id = t1_vpc_security_group.foo.id
   direction         = "ingress"
   protocol          = "icmp"
   ethertype         = "IPv4"
@@ -30,7 +30,7 @@ resource "t1_vpc_security_group_rule" "fizz" {
 }
 
 resource "t1_vpc_security_group_rule" "buzz" {
-  security_group_id = t1_vpc_security_group.bar.id
+  security_group_id = t1_vpc_security_group.foo.id
   direction         = "ingress"
   protocol          = "any"
   ethertype         = "IPv4"
