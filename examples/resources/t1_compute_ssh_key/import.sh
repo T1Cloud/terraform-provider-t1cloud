@@ -1,0 +1,1 @@
+terraform import t1_compute_ssh_key.example_key my-key-name

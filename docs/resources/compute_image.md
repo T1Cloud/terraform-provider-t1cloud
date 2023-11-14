@@ -35,3 +35,6 @@ resource "t1_compute_image" "foo" {
 ### Read-Only
 
 - `id` (String) The ID of `image` item.
+- `os_distro` (String) OS distro one of [ubuntu, windows, alt, astra, etc].
+- `os_version` (String) Verison of distro image.
+- `size` (Number) Image size (in Gb, rounded to big).

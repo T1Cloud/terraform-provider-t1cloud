@@ -14,12 +14,12 @@ Manages a virtual IP address resource within T1.Cloud VPC.
 
 ```terraform
 resource "t1_compute_instance" "vm1" {
-    network_interface = {}
-}
+    # ...
+} 
 
 resource "t1_compute_instance" "vm2" {
-    network_interface = {}
-}
+    # ...
+} 
 
 resource "t1_vpc_vip" "foo" {
   region                  = "ru-central1"

@@ -13,52 +13,40 @@ Manages a compute VM instance resource within T1.Cloud Compute.
 ## Example Usage
 
 ```terraform
+data "t1_compute_flavor" "small" {
+    ram   = 1
+    vcpus = 1
+}
+data "t1_compute_image" "astra" {
+	os_distro  = "astra"
+	os_version = "1.7.3 Орёл"
+}
+data "t1_vpc_network" "default" {
+	name = "default"
+}
+
 resource "t1_compute_instance" "vm" {
   boot_volume = {
-    size                  = 4
-    delete_on_termination = false
+    size = 4
   }
-  flavor = {
-    cores  = 1
-    memory = 2
+
+  flavor = data.t1_compute_flavor.small
+  image  = data.t1_compute_image.astra
+
+  network_interface = {
+    subnet_id = data.t1_vpc_network.default.subnets[0].id
   }
-  image = {
-    distro  = "ubuntu"
-    version = "20.04"
-  }
-  ssh_keys = [
+   ssh_keys = [
     t1_compute_ssh_key.ssh.id,
   ]
-  network_interface = {
-    fixed_ip  = "10.128.0.13"
-    subnet_id = t1_vpc_subnet.subnet1.id,
-    security_group_ids = [
-      t1_vpc_security_group.foo.id,
-    ]
-  }
 }
 
-resource "t1_compute_ssh_key" "ssh" {
-  name  = "foo"
-  login = "root"
-  publick_keys = [
-    "my-public-key",
-  ]
-}
-
-resource "t1_vpc_security_group" "sec_group" {
-  name = "My security group"
-}
-
-resource "t1_vpc_network" "foo" {
-  name = "My network"
-}
-
-resource "t1_vpc_subnet" "subnet1" {
-  name       = "foo-subnet"
-  region     = "ru-central1"
-  cidr       = "10.128.0.1/24"
-  network_id = t1_vpc_network.foo.id
+resource "t1_compute_ssh_key" "test" {
+	name        = "test-ssh"
+	login       = "root"
+	public_keys = [
+	  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
+	]
 }
 ```
 
@@ -69,17 +57,19 @@ resource "t1_vpc_subnet" "subnet1" {
 
 - `boot_volume` (Attributes) The boot volume config for VM instance. (see [below for nested schema](#nestedatt--boot_volume))
 - `flavor` (Attributes) Desired cores and memory configuration for VM instance. Changing this resizes the existing VM. To perform resize required switch VM `state` to `off` (see [below for nested schema](#nestedatt--flavor))
-- `image` (Attributes) Desired image for VM instance. Changing this recreates a VM. (see [below for nested schema](#nestedatt--image))
+- `image` (Attributes) Used to :
+	* fetch data about one of standard cloud images (`Windows Server`, `Ubuntu` etc);
+	* fetch data about custom image **item** using `custom_image_id`; (see [below for nested schema](#nestedatt--image))
 - `network_interface` (Attributes) Configuration of network interface attached to VM instance. (see [below for nested schema](#nestedatt--network_interface))
-- `ssh_keys` (List of String) List of ssh records ID, which public keys will be granted access to VM instance.
+- `ssh_keys` (List of String) List of ssh keys ID, which public keys will be granted access to VM instance.
 
 ### Optional
 
 - `description` (String) An optional description of the VM instance.
 - `name` (String) A name for the VM instance. Changing this creates a new VM.
 - `region` (String) The region where the VM will be placed.
-- `state` (String) Allows to turn off or turn on the VM.
-- `zone` (String) The availability zone of region where the VM will be created.
+- `state` (String) Allows to switch VM state from `on` to `off`. Default `on`
+- `zone` (String) The availability zone of region where the VM will be placed
 
 ### Read-Only
 
@@ -99,7 +89,7 @@ Optional:
 
 Read-Only:
 
-- `item_id` (String) ID of the `boot_volume` item
+- `id` (String) ID of the `boot_volume` item
 
 
 <a id="nestedatt--flavor"></a>
@@ -107,13 +97,12 @@ Read-Only:
 
 Required:
 
-- `cores` (Number) Quantity of virtual CPUs.
-- `memory` (Number) Quantity of RAM (specified in GB).
-
-Read-Only:
-
+- `cpu_series` (String) Series of CPU (Intel, AMD, etc.)
+- `family` (String) Processor family: one of [general-purpose, Advanced]
 - `id` (String) ID of specified flavor.
 - `name` (String) Name of the flavor.
+- `ram` (Number) Quantity of RAM (specified in GB).
+- `vcpus` (Number) Quantity of virtual CPUs.
 
 
 <a id="nestedatt--image"></a>
@@ -121,14 +110,15 @@ Read-Only:
 
 Required:
 
-- `distro` (String) Name of OS distro(ubuntu, windows, altlinux, astra, etc.).
-- `version` (String) Verison of distro image.
-
-Read-Only:
-
-- `id` (String) ID of specified image.
-- `name` (String) Full image title.
+- `id` (String) Image ID.
+- `name` (String) Image code name.
+- `os_distro` (String) OS distro one of [ubuntu, windows, alt, astra, etc].
+- `os_version` (String) Verison of distro OS.
 - `size` (Number) Image size in bytes.
+
+Optional:
+
+- `custom_image_id` (String) ID of custom compute image item.
 
 
 <a id="nestedatt--network_interface"></a>
@@ -136,7 +126,7 @@ Read-Only:
 
 Required:
 
-- `subnet_id` (String) ID of the subnet to attach this interface to.
+- `subnet_id` (String) ID of the subnet to which the instance `network_interface` would be connected.
 
 Optional:
 
@@ -145,4 +135,12 @@ Optional:
 
 Read-Only:
 
-- `id` (String) ID of `nic` item attached to VM instance
+- `id` (String) ID of `nic` item attached to VM instance.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+terraform import t1_compute_instance.example instance-order_id
+```

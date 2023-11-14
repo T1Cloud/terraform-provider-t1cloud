@@ -1,28 +1,26 @@
-resource "t1_compute_volume" "foo" {
+# Volume from standard image
+data "t1_compute_image" "centos7" {
+  os_distro  = "centos"
+  os_version = "7"
+}
+resource "t1_compute_volume" "test_import" {
+  image     = data.t1_compute_image.centos7
   zone      = "ru-central1-a"
-  name      = "foo"
-  size      = 12
-  disk_type = "Basic"
-  image = {
-    distro  = "ubuntu"
-    version = "20.04"
-  }
-  attachment = {
-    instance_id           = t1_compute_instance.vm.id
-    delete_on_termination = true
-  }
+  size      = 4
+  disk_type = "Light"
+}
+
+# Volume from custom image item
+data "t1_compute_image" "custom" {
+  custom_image_id = "my-custom-image-item-id"
+}
+resource "t1_compute_volume" "buzz" {
+  image = data.t1_compute_image.custom
+  zone  = "ru-central1-a"
 }
 
 # Voume from snapshot
-
 resource "t1_compute_volume" "bar" {
-  name        = "bar"
   snapshot_id = "snapshot_id"
-}
-
-# Volume from custom compute image
-
-resource "t1_compute_volume" "buzz" {
-  name            = "buzz"
-  custom_image_id = "custom_image_id"
+  zone        = "ru-central1-a"
 }

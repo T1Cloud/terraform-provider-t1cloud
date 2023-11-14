@@ -1,3 +1,7 @@
+resource "t1_compute_instance" "vm" {
+    # ...
+} 
+
 resource "t1_vpc_public_ip" "foo" {
   region = "ru-central1"
 }

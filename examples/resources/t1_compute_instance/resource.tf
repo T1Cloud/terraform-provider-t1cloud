@@ -1,47 +1,35 @@
+data "t1_compute_flavor" "small" {
+    ram   = 1
+    vcpus = 1
+}
+data "t1_compute_image" "astra" {
+	os_distro  = "astra"
+	os_version = "1.7.3 Орёл"
+}
+data "t1_vpc_network" "default" {
+	name = "default"
+}
+
 resource "t1_compute_instance" "vm" {
   boot_volume = {
-    size                  = 4
-    delete_on_termination = false
+    size = 4
   }
-  flavor = {
-    cores  = 1
-    memory = 2
+
+  flavor = data.t1_compute_flavor.small
+  image  = data.t1_compute_image.astra
+
+  network_interface = {
+    subnet_id = data.t1_vpc_network.default.subnets[0].id
   }
-  image = {
-    distro  = "ubuntu"
-    version = "20.04"
-  }
-  ssh_keys = [
+   ssh_keys = [
     t1_compute_ssh_key.ssh.id,
   ]
-  network_interface = {
-    fixed_ip  = "10.128.0.13"
-    subnet_id = t1_vpc_subnet.subnet1.id,
-    security_group_ids = [
-      t1_vpc_security_group.foo.id,
-    ]
-  }
 }
 
-resource "t1_compute_ssh_key" "ssh" {
-  name  = "foo"
-  login = "root"
-  publick_keys = [
-    "my-public-key",
-  ]
-}
-
-resource "t1_vpc_security_group" "sec_group" {
-  name = "My security group"
-}
-
-resource "t1_vpc_network" "foo" {
-  name = "My network"
-}
-
-resource "t1_vpc_subnet" "subnet1" {
-  name       = "foo-subnet"
-  region     = "ru-central1"
-  cidr       = "10.128.0.1/24"
-  network_id = t1_vpc_network.foo.id
+resource "t1_compute_ssh_key" "test" {
+	name        = "test-ssh"
+	login       = "root"
+	public_keys = [
+	  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
+	]
 }
