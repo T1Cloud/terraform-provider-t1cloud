@@ -5,35 +5,32 @@
 Terraform провайдер позволяет управлять множеством ресурсов в T1 Cloud. Пользователи могут взаимодействовать с T1 Cloud, объявляя ресурсы(resources) или вызывая источники данных(data sources).
 
 ## Требования
-
-- [Terraform Core](https://developer.hashicorp.com/terraform/downloads) >= 1.5
+- [Terraform Core](https://developer.hashicorp.com/terraform/downloads) >= 1.6.5
 
 ## Ресурсы и источники данных
-
 - Ресурсы:
-    - [t1_compute_instance](docs/resources/compute_instance.md) - Серверы
-    - [t1_compute_volume](docs/resources/compute_volume.md) - Диски
-    - [t1_compute_snapshot](docs/resources/compute_snapshot.md) - Снимки
-    - [t1_compute_image](docs/resources/compute_image.md) - Образы
-    - [t1_compute_ssh_key](docs/resources/compute_ssh_key.md) - SSH-ключи
-    - [t1_compute_floating_ip_associate](docs/resources/compute_floating_ip_associate.md) - Подключение публичного IP к серверу
-    - [t1_vpc_network](docs/resources/vpc_network.md) - Сети
-    - [t1_vpc_subnet](docs/resources/vpc_subnet.md) - Подсети
-    - [t1_vpc_snat_router](docs/resources/vpc_snat_router.md) - Маршрутизаторы
-    - [t1_vpc_public_ip](docs/resources/vpc_public_ip.md) - Публичные IP-адреса
-    - [t1_vpc_vip](docs/resources/vpc_vip.md) - Виртуальные IP адреса
-    - [t1_vpc_security_group](docs/resources/vpc_security_group.md) - Группы безопаcности
-    - [t1_vpc_security_group_rule](docs/resources/vpc_security_group_rule.md) - Правила группы безопаcности
+    - [compute_instance](docs/resources/compute_instance.md) - Серверы
+    - [compute_volume](docs/resources/compute_volume.md) - Диски
+    - [compute_snapshot](docs/resources/compute_snapshot.md) - Снимки
+    - [compute_image](docs/resources/compute_image.md) - Образы
+    - [compute_ssh_key](docs/resources/compute_ssh_key.md) - SSH-ключи
+    - [compute_floating_ip_associate](docs/resources/compute_floating_ip_associate.md) - Подключение публичного IP к серверу
+    - [vpc_network](docs/resources/vpc_network.md) - Сети
+    - [vpc_subnet](docs/resources/vpc_subnet.md) - Подсети
+    - [vpc_snat_router](docs/resources/vpc_snat_router.md) - Маршрутизаторы
+    - [vpc_public_ip](docs/resources/vpc_public_ip.md) - Публичные IP-адреса
+    - [vpc_vip](docs/resources/vpc_vip.md) - Виртуальные IP адреса
+    - [vpc_security_group](docs/resources/vpc_security_group.md) - Группы безопаcности
+    - [vpc_security_group_rule](docs/resources/vpc_security_group_rule.md) - Правила группы безопаcности
 - Источники данных:
-    - [t1_compute_flavor](docs/data-sources/compute_flavor.md) - Флейворы
-    - [t1_compute_image](docs/data-sources/compute_image.md) - Образы
-    - [t1_vpc_security_group](docs/data-sources/vpc_security_group.md) - Группы безопаности
-    - [t1_compute_ssh_key](docs/data-sources/ssh_keys.md) - SSH-ключи
-    - [t1_vpc_network](docs/data-sources/vpc_network.md) - Сети
-    - [t1_vpc_subnet](docs/data-sources/vpc_subnet.md) - Подсети
-    - [t1_compute_volume](docs/data-sources/compute_volume.md) - Диски
-    - [t1_compute_snapshot](docs/data-sources/compute_snapshot.md) - Снимки
-
+    - [compute_flavor](docs/data-sources/compute_flavor.md) - Флейворы
+    - [compute_image](docs/data-sources/compute_image.md) - Образы
+    - [compute_volume](docs/data-sources/compute_volume.md) - Диски
+    - [compute_snapshot](docs/data-sources/compute_snapshot.md) - Снимки
+    - [compute_ssh_key](docs/data-sources/ssh_keys.md) - SSH-ключи
+    - [vpc_network](docs/data-sources/vpc_network.md) - Сети
+    - [vpc_subnet](docs/data-sources/vpc_subnet.md) - Подсети
+    - [vpc_security_group](docs/data-sources/vpc_security_group.md) - Группы безопасности
 
 ## Начало работы
 
