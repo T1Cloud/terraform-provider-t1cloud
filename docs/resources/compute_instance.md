@@ -14,15 +14,28 @@ Manages a compute VM instance resource within T1.Cloud Compute.
 
 ```terraform
 data "t1_compute_flavor" "small" {
-    ram   = 1
-    vcpus = 1
+	vcpus          = 1
+	ram            = 1
+	family         = "general-purpose"
+	cpu_series     = "Intel Cascade Lake 2.2 GHz"
+	hardware_group = "public"
 }
+
 data "t1_compute_image" "astra" {
 	os_distro  = "astra"
 	os_version = "1.7.3 Орёл"
 }
+
 data "t1_vpc_network" "default" {
 	name = "default"
+}
+
+resource "t1_compute_ssh_key" "test" {
+	name        = "test-ssh"
+	login       = "root"
+	public_keys = [
+	  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
+	]
 }
 
 resource "t1_compute_instance" "vm" {
@@ -39,14 +52,6 @@ resource "t1_compute_instance" "vm" {
    ssh_keys = [
     t1_compute_ssh_key.ssh.id,
   ]
-}
-
-resource "t1_compute_ssh_key" "test" {
-	name        = "test-ssh"
-	login       = "root"
-	public_keys = [
-	  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
-	]
 }
 ```
 
@@ -84,8 +89,8 @@ Required:
 
 Optional:
 
-- `delete_on_termination` (Boolean) Delete the volume alongside destruction of the instance. Default to `true`. Changing this creates a new VM.
-- `disk_type` (String) Type of volume boot disk (e.g. `Light`, `Basic`). Default to `Light`. Changing this creates a new VM.
+- `delete_on_termination` (Boolean) Delete the volume alongside destruction of the instance. Default to `true`. Changing this will replace resource.
+- `disk_type` (String) Type of boot volume disk (e.g. `Light`, `Basic`). Defaults to `Light`. Changing this will replace resource.
 
 Read-Only:
 
@@ -99,6 +104,7 @@ Required:
 
 - `cpu_series` (String) Series of CPU (Intel, AMD, etc.)
 - `family` (String) Processor family: one of [general-purpose, Advanced]
+- `hardware_group` (String) Resources for public cloud or for private cloud.
 - `id` (String) ID of specified flavor.
 - `name` (String) Name of the flavor.
 - `ram` (Number) Quantity of RAM (specified in GB).
@@ -142,5 +148,5 @@ Read-Only:
 Import is supported using the following syntax:
 
 ```shell
-terraform import t1_compute_instance.example instance-order_id
+terraform import t1_compute_instance.example <instance_order_id>
 ```

@@ -26,13 +26,14 @@ data "t1_compute_flavor" "test" {
 
 ### Required
 
+- `cpu_series` (String) Series of CPU (Intel, AMD, etc.)
+- `family` (String) Processor family: one of [general-purpose, Advanced, Memory-optimized]
 - `ram` (Number) Quantity of RAM (input in GB, output in Mb).
 - `vcpus` (Number) Quantity of virtual CPUs.
 
 ### Optional
 
-- `cpu_series` (String) Series of CPU (Intel, AMD, etc.)
-- `family` (String) Processor family: one of [general-purpose, Advanced]
+- `hardware_group` (String) Resources for public cloud or for private cloud.
 
 ### Read-Only
 

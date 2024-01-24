@@ -51,7 +51,7 @@ resource "t1_compute_volume" "bar" {
 ### Optional
 
 - `attachment` (Attributes) Manages attachment of compute volume to an VM instance. (see [below for nested schema](#nestedatt--attachment))
-- `disk_type` (String) Type of volume disk (e.g. `Light`, `Basic`). Defaults to `Light`. Changing this will replace resource.
+- `disk_type` (String) Type of volume disk (e.g. `Light`, `Basic`). Defaults to `Light`.
 - `image` (Attributes) Used to :
 	* fetch data about one of standard cloud images (`Windows Server`, `Ubuntu` etc);
 	* fetch data about custom image **item** using `custom_image_id`; (see [below for nested schema](#nestedatt--image))
@@ -85,7 +85,7 @@ Required:
 - `name` (String) Image code name.
 - `os_distro` (String) OS distro one of [ubuntu, windows, alt, astra, etc].
 - `os_version` (String) Verison of distro OS.
-- `size` (Number) Image size (in Gb, rounded to big).
+- `size` (Number) Image size in bytes.
 
 Optional:
 

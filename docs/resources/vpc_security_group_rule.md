@@ -32,7 +32,7 @@ resource "t1_vpc_security_group_rule" "bar" {
   direction         = "egress"
   protocol          = "tcp"
   ethertype         = "IPv4"
-  from_port         = 80
+  port              = 80
   remote_group_id   = t1_vpc_security_group.foo.id
 }
 
@@ -66,6 +66,7 @@ resource "t1_vpc_security_group_rule" "buzz" {
 
 ### Optional
 
+- `description` (String) Rule description
 - `from_port` (Number) Minimum port open number(if applied to port range)
 - `port` (Number) Port number (if applied to a single port).
 - `remote_group_id` (String) Able to select the remote group as a rule target. Note: Only one of `remote_group_id` or `remote_ip_prefix` may be set.

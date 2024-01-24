@@ -32,7 +32,7 @@ resource "t1_vpc_subnet" "subnet1" {
 
 ### Required
 
-- `cidr` (String) The subnet size is determined by the classless addressing method: the maximum CIDR size is /16, the minimum is /28. IPv4 CIDR must match one of private IPs [10.0-255.x.x/prefix, 172.16.x.x/prefix, 192.168.x.x/prefix], where prefix is value from /16 to /28.
+- `cidr` (String) The subnet size is determined by the classless addressing method: the maximum CIDR size is /16, the minimum is /28. IPv4 CIDR must match one of private IPs [10.0-255.x.x/mask, 172.16.x.x/mask, 192.168.x.x/mask], where mask is value from /16 to /28.
 - `name` (String) Name of the subnet provided by the client.
 - `network_id` (String) ID of the network this subnet belongs to.
 - `region` (String) Region where this subnet will be created.

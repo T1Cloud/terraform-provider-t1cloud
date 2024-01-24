@@ -46,3 +46,12 @@ resource "t1_vpc_snat_router" "foo" {
 
 - `id` (String) The order ID of this resource
 - `public_ip` (String) The public address is automatically assigned to the created router.
+- `state` (String) Indicates current order state (on, off, deleted).
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+terraform import t1_vpc_snat_router.example <snat_order_id>
+```

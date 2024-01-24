@@ -30,11 +30,11 @@ resource "t1_compute_image" "foo" {
 ### Required
 
 - `name` (String) A name for the custom image. Changing this will replace resource.
-- `source_volume_id` (String) ID of the `volume` item to create custom image from. Changing this will replace resource.
+- `source_volume_order_id` (String) ID of the compute `volume` order to create custom image from. Image could only be created from standalone volume, not from attached. Changing this will replace resource.
 
 ### Read-Only
 
-- `id` (String) The ID of `image` item.
+- `id` (String) The ID of custom image item.
 - `os_distro` (String) OS distro one of [ubuntu, windows, alt, astra, etc].
 - `os_version` (String) Verison of distro image.
 - `size` (Number) Image size (in Gb, rounded to big).

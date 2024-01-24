@@ -24,9 +24,10 @@ resource "t1_compute_instance" "vm2" {
 resource "t1_vpc_vip" "foo" {
   region                  = "ru-central1"
   mode                    = "active-active"
-  l2_enabled              = true
   internet_access_enabled = true
   subnet_id               = "subnet_id"
+  l2_enabled              = true
+  vmac_address            = "30:49:8f:e9:6b:e7"
   fixed_ip                =  "10.128.0.61"
   network_interface_ids = [ 
     t1_compute_instance.vm1.network_interface.id,
@@ -46,12 +47,14 @@ resource "t1_vpc_vip" "foo" {
 
 ### Optional
 
-- `fixed_ip` (String) When you enter an IP address, it is checked to see if it is busy and whether it belongs to the selected subnet. If empty, the address will be automatically assigned from the specified subnet.
-- `internet_access_enabled` (Boolean) Enable the switch to allow access to the virtual IP address from the Internet. Public IP address is assigned automatically. Default to `false`. Changing this will replace resource.
+- `fixed_ip` (String) When you enter an IP address, it is checked to see if it is busy and whether it belongs to the selected subnet. If empty, the address will be automatically assigned from the specified subnet.Changing this will replace resource.
+- `internet_access_enabled` (Boolean) Enable the switch to allow access to the virtual IP address from the Internet. Public IP address is assigned automatically. Default to `false`.
 - `l2_enabled` (Boolean) Enable the switch if you are using Direct Connect over a VxLAN mechanism and the virtual IP address must be accessible from your Direct Connect network. Default to `false`. Changing this will replace resource.
 - `name` (String) A name for the virtual IP resource. Changing this will replace resource.
 - `network_interface_ids` (List of String) IDs of the network interfaces to which the virtual IP address will be connected.
+- `vmac_address` (String) If the Enable L2 switch is activated, specify the virtual MAC address in the vMAC address field
 
 ### Read-Only
 
 - `id` (String) The order ID of this resource.
+- `state` (String) Indicates current order state (on, off, deleted).

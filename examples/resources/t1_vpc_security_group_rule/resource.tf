@@ -17,7 +17,7 @@ resource "t1_vpc_security_group_rule" "bar" {
   direction         = "egress"
   protocol          = "tcp"
   ethertype         = "IPv4"
-  from_port         = 80
+  port              = 80
   remote_group_id   = t1_vpc_security_group.foo.id
 }
 
