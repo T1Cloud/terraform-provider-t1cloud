@@ -1,34 +1,36 @@
 # Terraform Provider T1 Cloud
 
-Terraform — программное обеспечение с открытым исходным кодом, используемое для управления внешними ресурсами (например, в рамках модели инфраструктура как код). Создано и поддерживается компанией HashiCorp. Пользователи определяют инфраструктуру с помощью декларативного языка конфигурации, известного как HashiCorp Configuration Language (HCL).
+**Terraform** — программное обеспечение с открытым исходным кодом, используемое для управления внешними ресурсами (например, в рамках модели инфраструктура как код). Создано и поддерживается компанией HashiCorp. Пользователи определяют инфраструктуру с помощью декларативного языка конфигурации, известного как HashiCorp Configuration Language (HCL).
 
 Terraform провайдер позволяет управлять множеством ресурсов в T1 Cloud. Пользователи могут взаимодействовать с T1 Cloud, объявляя ресурсы(resources) или вызывая источники данных(data sources).
 
-## Requirements
+## Требования
+- [Terraform Core](https://developer.hashicorp.com/terraform/downloads) >= 1.6.5
 
-- [Terraform Core](https://developer.hashicorp.com/terraform/downloads) >= 1.5
-
-## Документация
-
+## Ресурсы и источники данных
 - Ресурсы:
-    - [t1_compute_instance](docs/resources/compute_instance.md) - Серверы
-    - [t1_compute_volume](docs/resources/compute_volume.md) - Диски
-    - [t1_compute_snapshot](docs/resources/compute_snapshot.md) - Снимки
-    - [t1_compute_image](docs/resources/compute_image.md) - Образы
-    - [t1_compute_ssh_key](docs/resources/compute_ssh_key.md) - SSH-ключи
-    - [t1_compute_floating_ip_associate](docs/resources/compute_floating_ip_associate.md) - Подключение публичного IP к серверу
-    - [t1_vpc_network](docs/resources/vpc_network.md) - Сети
-    - [t1_vpc_subnet](docs/resources/vpc_subnet.md) - Подсети
-    - [t1_vpc_snat_router](docs/resources/vpc_snat_router.md) - Маршрутизаторы
-    - [t1_vpc_public_ip](docs/resources/vpc_public_ip.md) - Публичные IP-адреса
-    - [t1_vpc_vip](docs/resources/vpc_vip.md) - Виртуальные IP адреса
-    - [t1_vpc_security_group](docs/resources/vpc_security_group.md) - Группы безопаcности
-    - [t1_vpc_security_group_rule](docs/resources/vpc_security_group_rule.md) - Правила группы безопаcности
+    - [compute_instance](docs/resources/compute_instance.md) - Серверы
+    - [compute_volume](docs/resources/compute_volume.md) - Диски
+    - [compute_snapshot](docs/resources/compute_snapshot.md) - Снимки
+    - [compute_image](docs/resources/compute_image.md) - Образы
+    - [compute_ssh_key](docs/resources/compute_ssh_key.md) - SSH-ключи
+    - [compute_floating_ip_associate](docs/resources/compute_floating_ip_associate.md) - Подключение публичного IP к серверу
+    - [vpc_network](docs/resources/vpc_network.md) - Сети
+    - [vpc_subnet](docs/resources/vpc_subnet.md) - Подсети
+    - [vpc_snat_router](docs/resources/vpc_snat_router.md) - Маршрутизаторы
+    - [vpc_public_ip](docs/resources/vpc_public_ip.md) - Публичные IP-адреса
+    - [vpc_vip](docs/resources/vpc_vip.md) - Виртуальные IP адреса
+    - [vpc_security_group](docs/resources/vpc_security_group.md) - Группы безопаcности
+    - [vpc_security_group_rule](docs/resources/vpc_security_group_rule.md) - Правила группы безопаcности
 - Источники данных:
-    - [t1_compute_flavor](docs/data-sources/compute_flavor.md) - Флейворы
-    - [t1_compute_image](docs/data-sources/compute_image.md) - Образы
-    - [t1_vpc_security_group](docs/data-sources/vpc_security_group.md) - Группы безопаности
-    - [t1_compute_ssh_key](docs/data-sources/ssh_keys.md) - SSH-ключи
+    - [compute_flavor](docs/data-sources/compute_flavor.md) - Флейворы
+    - [compute_image](docs/data-sources/compute_image.md) - Образы
+    - [compute_volume](docs/data-sources/compute_volume.md) - Диски
+    - [compute_snapshot](docs/data-sources/compute_snapshot.md) - Снимки
+    - [compute_ssh_key](docs/data-sources/ssh_keys.md) - SSH-ключи
+    - [vpc_network](docs/data-sources/vpc_network.md) - Сети
+    - [vpc_subnet](docs/data-sources/vpc_subnet.md) - Подсети
+    - [vpc_security_group](docs/data-sources/vpc_security_group.md) - Группы безопасности
 
 ## Начало работы
 
@@ -104,16 +106,26 @@ provider "t1" {
 - системный диск — 10 Gb;
 - количество виртуальных ядер процессора — 1 vCPU;
 - количество оперативной памяти — 1 Gb;
-- установленная ОС — Ubuntu 20.04.
-
-В качестве примера будет использоваться конфигурация для создания сервера, с системным диском на 10 Гб, 1 ядром CPU и 1 Гб RAM и с установленной ОС Ubuntu 20.04.
+- установленная ОС — Astra Linux 1.7.3.
 
 Чтобы создать сервер с помощью Terraform:
 
 1. Создайте файл main.tf.
-2. Заполните файл в соответствии с примером конфигурации инфраструктуры. 
+2. Заполните файл в соответствии с примером конфигурации инфраструктуры.
 
 ```hcl
+data "t1_compute_flavor" "small" {
+    ram   = 1
+    vcpus = 1
+}
+data "t1_compute_image" "astra" {
+	os_distro  = "astra"
+	os_version = "1.7.3 Орёл"
+}
+data "t1_vpc_network" "default" {
+	name = "default"
+}
+
 resource "t1_compute_instance" "vm" {
 
 # По умолчанию сервер после создания включен.
@@ -125,49 +137,24 @@ resource "t1_compute_instance" "vm" {
   boot_volume = {
     size = 10
   }
-  flavor = {
-    cores  = 1
-    memory = 1
-  }
-  image = {
-    distro  = "ubuntu"
-    version = "20.04"
-  }
+
+  flavor = data.t1_compute_flavor.small
+  image  = data.t1_compute_image.astra
+
   network_interface = {
-    subnet_id = t1_vpc_subnet.subnet1.id,
-    security_group_ids = [
-      t1_vpc_security_group.sec_group.id,
-    ]
+    subnet_id = data.t1_vpc_network.default.subnets[0].id
   }
-
    ssh_keys = [
-    t1_compute_ssh_key.ssh.id,
+    t1_compute_ssh_key.test.id,
   ]
 }
 
-resource "t1_compute_ssh_key" "ssh" {
-  name  = "foo-ssh"
-  login = "root"
-  publick_keys = [
-    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDOB+yaqgoGadDHTuNd5SEi5h1/weW6ZLga008B9GFGCQPJQ5y6hViHfh8qdOREJpkk2yKPntzKBE9Gx41zDCvucJAejqO7SAxUV1KIvNTVtooBrpPsc/I5fyTUc1XZ+2RfyJTIuqbeM2Eu7r0+obM5s/GZJnzmvG+5yLId+uNVRQ==",
-  ]
-}
-
-# Если не указать ID группы безопасности, то сервер создаётся с группой безопасности default.
-
-resource "t1_vpc_security_group" "sec_group" {
-  name = "foo-security-group"
-}
-
-resource "t1_vpc_network" "network1" {
-  name = "foo-network"
-}
-
-resource "t1_vpc_subnet" "subnet1" {
-  name       = "foo-subnet"
-  region     = "ru-central1"
-  cidr       = "192.168.0.0/16"
-  network_id = t1_vpc_network.network1.id
+resource "t1_compute_ssh_key" "test" {
+	name        = "test-ssh"
+	login       = "root"
+	public_keys = [
+	  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
+	]
 }
 ```
 
