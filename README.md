@@ -114,10 +114,13 @@ provider "t1" {
 2. Заполните файл в соответствии с примером конфигурации инфраструктуры.
 
 ```hcl
-data "t1_compute_flavor" "small" {
-    ram   = 1
-    vcpus = 1
+data "t1_compute_flavor" "test" {
+	vcpus      = 1
+	ram        = 1
+	family     = "general-purpose"
+	cpu_series = "Intel Cascade Lake 2.2 GHz"
 }
+
 data "t1_compute_image" "astra" {
 	os_distro  = "astra"
 	os_version = "1.7.3 Орёл"
@@ -130,8 +133,6 @@ resource "t1_compute_instance" "vm" {
 
 # По умолчанию сервер после создания включен.
 # Если нужно, чтобы после создания сервер был выключен, используйте state = "off".
-# Если нужно изменить конфигурацию сервера, то сначала его нужно остановить с помощью state = "off".
- 
   state = "off"
 
   boot_volume = {
