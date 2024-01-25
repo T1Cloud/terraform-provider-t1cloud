@@ -114,7 +114,7 @@ provider "t1" {
 2. Заполните файл в соответствии с примером конфигурации инфраструктуры.
 
 ```hcl
-data "t1_compute_flavor" "test" {
+data "t1_compute_flavor" "small" {
 	vcpus      = 1
 	ram        = 1
 	family     = "general-purpose"
