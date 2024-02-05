@@ -38,10 +38,10 @@ Terraform провайдер позволяет управлять множес�
     - [vpc_network](docs/data-sources/vpc_network.md) - Сети
     - [vpc_subnet](docs/data-sources/vpc_subnet.md) - Подсети
     - [vpc_security_group](docs/data-sources/vpc_security_group.md) - Группы безопасности
-    - [canonical_user_id](docs/data-sources/compute_image.md) - Пользователь
     - [s3_bucket](docs/data-sources/s3_bucket.md) - Бакет
     - [s3_bucket_object](docs/data-sources/s3_bucket_object.md) - Файл в бакете
     - [s3_bucket_objects](docs/data-sources/s3_bucket_objects.md) - Файлы бакета
+    - [canonical_user_id](docs/data-sources/canonical_user_id.md) - Пользователь
 
 ## Начало работы
 
