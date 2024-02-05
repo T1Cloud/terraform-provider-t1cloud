@@ -22,6 +22,13 @@ Terraform провайдер позволяет управлять множес�
     - [vpc_vip](docs/resources/vpc_vip.md) - Виртуальные IP адреса
     - [vpc_security_group](docs/resources/vpc_security_group.md) - Группы безопаcности
     - [vpc_security_group_rule](docs/resources/vpc_security_group_rule.md) - Правила группы безопаcности
+    - [s3_bucket](docs/resources/s3_bucket.md) - Создание/удаление бакета
+    - [s3_bucket_acl](docs/resources/s3_bucket_acl.md) - Управление листом ACL для бакета
+    - [s3_bucket_cors_configuration](docs/resources/s3_bucket_cors_configuration.md) - Управления CORS для бакета
+    - [s3_bucket_lifecycle_configuration](docs/resources/s3_bucket_lifecycle_configuration.md) - Управление жизненным циклом у бакета
+    - [s3_bucket_object](docs/resources/s3_bucket_object.md) - Загрузка файла в бакет
+    - [s3_bucket_versioning](docs/resources/s3_bucket_versioning.md) - Управление версионированием бакета
+    - [s3_bucket_website_configuration](docs/resources/s3_bucket_website_configuration.md) - Управление режимом веб-сайт для бакета
 - Источники данных:
     - [compute_flavor](docs/data-sources/compute_flavor.md) - Флейворы
     - [compute_image](docs/data-sources/compute_image.md) - Образы
@@ -31,6 +38,10 @@ Terraform провайдер позволяет управлять множес�
     - [vpc_network](docs/data-sources/vpc_network.md) - Сети
     - [vpc_subnet](docs/data-sources/vpc_subnet.md) - Подсети
     - [vpc_security_group](docs/data-sources/vpc_security_group.md) - Группы безопасности
+    - [canonical_user_id](docs/data-sources/compute_image.md) - Пользователь
+    - [s3_bucket](docs/data-sources/s3_bucket.md) - Бакет
+    - [s3_bucket_object](docs/data-sources/s3_bucket_object.md) - Файл в бакете
+    - [s3_bucket_objects](docs/data-sources/s3_bucket_objects.md) - Файлы бакета
 
 ## Начало работы
 
