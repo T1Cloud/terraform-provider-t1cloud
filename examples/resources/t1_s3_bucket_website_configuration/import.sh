@@ -1,0 +1,1 @@
+terraform import t1_s3_bucket_website_configuration.object bucket-name

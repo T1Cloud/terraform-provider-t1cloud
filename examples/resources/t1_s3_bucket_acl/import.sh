@@ -1,0 +1,1 @@
+terraform import t1_s3_bucket_acl.example bucket-name/YOUR_CA_USER_NAME
