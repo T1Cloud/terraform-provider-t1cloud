@@ -131,6 +131,7 @@ data "t1_compute_flavor" "small" {
 	ram        = 1
 	family     = "general-purpose"
 	cpu_series = "Intel Cascade Lake 2.2 GHz"
+	hardware_group = "public"
 }
 
 data "t1_compute_image" "astra" {
