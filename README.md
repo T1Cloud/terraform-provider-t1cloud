@@ -118,6 +118,7 @@ provider "t1" {
 - системный диск — 10 Gb;
 - количество виртуальных ядер процессора — 1 vCPU;
 - количество оперативной памяти — 1 Gb;
+- серия процессора — Intel Cascade Lake 2.2 GHz;
 - установленная ОС — Astra Linux 1.7.3.
 
 Чтобы создать сервер с помощью Terraform:
@@ -131,6 +132,7 @@ data "t1_compute_flavor" "small" {
 	ram        = 1
 	family     = "general-purpose"
 	cpu_series = "Intel Cascade Lake 2.2 GHz"
+	hardware_group = "public"
 }
 
 data "t1_compute_image" "astra" {
@@ -141,25 +143,58 @@ data "t1_vpc_network" "default" {
 	name = "default"
 }
 
-resource "t1_compute_instance" "vm" {
+resource "t1_compute_instance" "vm1" {
 
 # По умолчанию сервер после создания включен.
 # Если нужно, чтобы после создания сервер был выключен, используйте state = "off".
   state = "off"
-
+ 
   boot_volume = {
     size = 10
   }
-
+ 
   flavor = data.t1_compute_flavor.small
   image  = data.t1_compute_image.astra
-
+ 
   network_interface = {
     subnet_id = data.t1_vpc_network.default.subnets[0].id
   }
    ssh_keys = [
     t1_compute_ssh_key.test.id,
   ]
+}
+ 
+resource "t1_compute_instance" "vm2" {
+  state = "off"
+ 
+  boot_volume = {
+    size = 10
+  }
+ 
+  flavor = data.t1_compute_flavor.small
+  image  = data.t1_compute_image.astra
+ 
+  network_interface = {
+    subnet_id = data.t1_vpc_network.default.subnets[0].id
+  }
+   ssh_keys = [
+    t1_compute_ssh_key.test.id,
+  ]
+}
+
+# Подключение к серверу публичного IP-адреса, если он нужен.
+resource "t1_vpc_vip" "foo" {
+  region                  = "ru-central1"
+  mode                    = "active-active"
+  internet_access_enabled = true
+  subnet_id               = "subnet_id"
+  l2_enabled              = true
+  vmac_address            = "30:49:8f:e9:6b:e7"
+  fixed_ip                = "10.128.0.61"
+  network_interface_ids = [
+    t1_compute_instance.vm1.network_interface.id,
+    t1_compute_instance.vm2.network_interface.id,
+   ]
 }
 
 resource "t1_compute_ssh_key" "test" {

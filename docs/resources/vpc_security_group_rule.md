@@ -37,11 +37,11 @@ resource "t1_vpc_security_group_rule" "bar" {
 resource "t1_vpc_security_group_rule" "buzz" {
   security_group_id = t1_vpc_security_group.foo.id
   direction         = "ingress"
-  protocol          = "udp"
+  protocol          = "tcp"
   ethertype         = "IPv4"
-  from_port         = 0
+  from_port         = 22
   to_port           = 443
-  remote_ip_prefix  = "0.0.0.0/0"
+  remote_group_id   = "4a26a434-bb63-48eb-a08d-5010e89fe2c5"
 }
 ```
 
@@ -51,7 +51,7 @@ resource "t1_vpc_security_group_rule" "buzz" {
 ### Required
 
 - `direction` (String) Direction of the rule. Can be ingress (inbound) or egress (outbound).
-- `ethertype` (String) One of `[IPv4, IPv6]`. (`IPv6` currently not supported)
+- `ethertype` (String) `IPv4` only supported by now.
 - `protocol` (String) Rule protocol (`tcp`, `udp`, `icmp`). Also could be `any`
 - `security_group_id` (String) The security group id the rule should belong to.
 
