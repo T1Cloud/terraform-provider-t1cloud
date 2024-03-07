@@ -1,1 +1,1 @@
-terraform import t1_compute_volume.example volume-item_id
+terraform import t1_compute_volume.foo_centos7 <volume_item_id>

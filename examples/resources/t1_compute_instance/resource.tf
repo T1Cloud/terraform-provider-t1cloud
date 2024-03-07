@@ -1,31 +1,31 @@
 data "t1_compute_flavor" "small" {
-	vcpus          = 1
-	ram            = 1
-	family         = "general-purpose"
-	cpu_series     = "Intel Cascade Lake 2.2 GHz"
-	hardware_group = "public"
+  vcpus          = 2
+  ram            = 4
+  family         = "general-purpose"
+  cpu_series     = "Intel Ice lake 2.8 GHz"
+  hardware_group = "public"
 }
 
 data "t1_compute_image" "astra" {
-	os_distro  = "astra"
-	os_version = "1.7.3 Орёл"
+  os_distro  = "astra"
+  os_version = "1.7.3 Орёл"
 }
 
 data "t1_vpc_network" "default" {
-	name = "default"
+  name = "default"
 }
 
 resource "t1_compute_ssh_key" "test" {
-	name        = "test-ssh"
-	login       = "root"
-	public_keys = [
-	  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
-	]
+  name        = "test-ssh"
+  login       = "root"
+  public_keys = [
+	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
+  ]
 }
 
 resource "t1_compute_instance" "vm" {
-  boot_volume = {
-    size = 4
+  system_volume = {
+    size = 10
   }
 
   flavor = data.t1_compute_flavor.small

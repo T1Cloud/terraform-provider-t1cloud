@@ -1,1 +1,1 @@
-terraform import t1_vpc_snat_router.example <snat_order_id>
+terraform import t1_vpc_snat_router.foo <snat_order_id>

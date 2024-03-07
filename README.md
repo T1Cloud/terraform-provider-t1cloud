@@ -11,6 +11,7 @@ Terraform провайдер позволяет управлять множес�
 - Ресурсы:
     - [compute_instance](docs/resources/compute_instance.md) - Серверы
     - [compute_volume](docs/resources/compute_volume.md) - Диски
+     - [compute_volume_attach](docs/resources/compute_volume_attach.md) - Подключение диска к серверу
     - [compute_snapshot](docs/resources/compute_snapshot.md) - Снимки
     - [compute_image](docs/resources/compute_image.md) - Образы
     - [compute_ssh_key](docs/resources/compute_ssh_key.md) - SSH-ключи

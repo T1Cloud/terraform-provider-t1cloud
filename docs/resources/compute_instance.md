@@ -14,33 +14,33 @@ Manages a compute VM instance resource within T1.Cloud Compute.
 
 ```terraform
 data "t1_compute_flavor" "small" {
-	vcpus          = 1
-	ram            = 1
-	family         = "general-purpose"
-	cpu_series     = "Intel Cascade Lake 2.2 GHz"
-	hardware_group = "public"
+  vcpus          = 2
+  ram            = 4
+  family         = "general-purpose"
+  cpu_series     = "Intel Ice lake 2.8 GHz"
+  hardware_group = "public"
 }
 
 data "t1_compute_image" "astra" {
-	os_distro  = "astra"
-	os_version = "1.7.3 Орёл"
+  os_distro  = "astra"
+  os_version = "1.7.3 Орёл"
 }
 
 data "t1_vpc_network" "default" {
-	name = "default"
+  name = "default"
 }
 
 resource "t1_compute_ssh_key" "test" {
-	name        = "test-ssh"
-	login       = "root"
-	public_keys = [
-	  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
-	]
+  name        = "test-ssh"
+  login       = "root"
+  public_keys = [
+	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
+  ]
 }
 
 resource "t1_compute_instance" "vm" {
-  boot_volume = {
-    size = 4
+  system_volume = {
+    size = 10
   }
 
   flavor = data.t1_compute_flavor.small
@@ -60,16 +60,17 @@ resource "t1_compute_instance" "vm" {
 
 ### Required
 
-- `boot_volume` (Attributes) The boot volume config for VM instance. (see [below for nested schema](#nestedatt--boot_volume))
 - `flavor` (Attributes) Desired cores and memory configuration for VM instance. Changing this resizes the existing VM. To perform resize required switch VM `state` to `off` (see [below for nested schema](#nestedatt--flavor))
 - `image` (Attributes) Used to :
 	* fetch data about one of standard cloud images (`Windows Server`, `Ubuntu` etc);
 	* fetch data about custom image **item** using `custom_image_id`; (see [below for nested schema](#nestedatt--image))
 - `network_interface` (Attributes) Configuration of network interface attached to VM instance. (see [below for nested schema](#nestedatt--network_interface))
 - `ssh_keys` (List of String) List of ssh keys ID, which public keys will be granted access to VM instance.
+- `system_volume` (Attributes) The boot volume config for VM instance. (see [below for nested schema](#nestedatt--system_volume))
 
 ### Optional
 
+- `allow_delete_volumes` (Boolean) Allows to delete all attached volumes (including system) while instance destruction. Flag useful when you desire clean destruction of an instance. Default `false`.
 - `description` (String) An optional description of the VM instance.
 - `name` (String) A name for the VM instance. Changing this creates a new VM.
 - `region` (String) The region where the VM will be placed.
@@ -79,23 +80,6 @@ resource "t1_compute_instance" "vm" {
 ### Read-Only
 
 - `id` (String) The order ID of this resource.
-
-<a id="nestedatt--boot_volume"></a>
-### Nested Schema for `boot_volume`
-
-Required:
-
-- `size` (Number) Size of the persistent boot volume (specified in GB). `size` value must be greater than size of source image (at least 1 Gb).
-
-Optional:
-
-- `delete_on_termination` (Boolean) Delete the volume alongside destruction of the instance. Default to `true`. Changing this will replace resource.
-- `disk_type` (String) Type of boot volume disk (e.g. `Light`, `Basic`). Defaults to `Light`. Changing this will replace resource.
-
-Read-Only:
-
-- `id` (String) ID of the `boot_volume` item
-
 
 <a id="nestedatt--flavor"></a>
 ### Nested Schema for `flavor`
@@ -142,6 +126,22 @@ Optional:
 Read-Only:
 
 - `id` (String) ID of `nic` item attached to VM instance.
+
+
+<a id="nestedatt--system_volume"></a>
+### Nested Schema for `system_volume`
+
+Required:
+
+- `size` (Number) Size of the persistent boot volume (specified in GB). `size` value must be greater than size of source image (at least 1 Gb).
+
+Optional:
+
+- `disk_type` (String) Type of boot volume disk (e.g. `Light`, `Basic`). Defaults to `Light`. Changing this will replace resource.
+
+Read-Only:
+
+- `id` (String) ID of the `boot_volume` item
 
 ## Import
 

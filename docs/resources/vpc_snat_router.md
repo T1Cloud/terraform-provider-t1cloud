@@ -53,5 +53,5 @@ resource "t1_vpc_snat_router" "foo" {
 Import is supported using the following syntax:
 
 ```shell
-terraform import t1_vpc_snat_router.example <snat_order_id>
+terraform import t1_vpc_snat_router.foo <snat_order_id>
 ```

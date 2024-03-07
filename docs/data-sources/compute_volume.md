@@ -32,6 +32,6 @@ output "foo_vol" {
 
 ### Read-Only
 
-- `bootalbe` (Boolean) Indicates if the volume is system.
 - `name` (String) The name of the volume.
 - `size` (Number) Size of the persistent volume (specified in GB).
+- `system` (Boolean) Indicates if the volume is system.

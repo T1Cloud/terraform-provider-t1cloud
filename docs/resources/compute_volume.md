@@ -3,12 +3,12 @@
 page_title: "t1_compute_volume Resource - terraform-provider-t1"
 subcategory: ""
 description: |-
-  Persistent volume are used for storage data. A volume can be attached or detached from the VM. Each volume can be attached to only one virtual machine at a time.
+  Manages a single persistent volume within T1.Cloud.
 ---
 
 # t1_compute_volume (Resource)
 
-Persistent volume are used for storage data. A volume can be attached or detached from the VM. Each volume can be attached to only one virtual machine at a time.
+Manages a single persistent volume within T1.Cloud.
 
 ## Example Usage
 
@@ -18,7 +18,7 @@ data "t1_compute_image" "centos7" {
   os_distro  = "centos"
   os_version = "7"
 }
-resource "t1_compute_volume" "test_import" {
+resource "t1_compute_volume" "foo_centos7" {
   image     = data.t1_compute_image.centos7
   zone      = "ru-central1-a"
   size      = 4
@@ -29,13 +29,14 @@ resource "t1_compute_volume" "test_import" {
 data "t1_compute_image" "custom" {
   custom_image_id = "my-custom-image-item-id"
 }
-resource "t1_compute_volume" "buzz" {
+resource "t1_compute_volume" "bar_custom" {
+  size  = 10
   image = data.t1_compute_image.custom
   zone  = "ru-central1-a"
 }
 
 # Voume from snapshot
-resource "t1_compute_volume" "bar" {
+resource "t1_compute_volume" "bizz_snapshot" {
   snapshot_id = "snapshot_id"
   zone        = "ru-central1-a"
 }
@@ -50,31 +51,19 @@ resource "t1_compute_volume" "bar" {
 
 ### Optional
 
-- `attachment` (Attributes) Manages attachment of compute volume to an VM instance. (see [below for nested schema](#nestedatt--attachment))
 - `disk_type` (String) Type of volume disk (e.g. `Light`, `Basic`). Defaults to `Light`.
 - `image` (Attributes) Used to :
-	* fetch data about one of standard cloud images (`Windows Server`, `Ubuntu` etc);
+	* fetch data about one of standard cloud images (`Astra`, `Ubuntu` etc);
 	* fetch data about custom image **item** using `custom_image_id`; (see [below for nested schema](#nestedatt--image))
 - `name` (String) Name of the volume. Changing this will replace resource.
 - `size` (Number) Size of the persistent volume (specified in GB). If you specify this field along with `image` or `snapshot_id`, the `size` value must be greater than size of source image (at least 1 Gb) or greater or equal than the size of snapshot.
+- `skip_destroy` (Boolean) Use this flag if volume is attached to an instance, and will be deleted on instance termination. It's just remove the volume from Terraform state.
 - `snapshot_id` (String) ID of `snapshot` item to create volume from.
 
 ### Read-Only
 
 - `id` (String) ID of the `volume` item.
 - `order_id` (String) The order ID of this resource.
-
-<a id="nestedatt--attachment"></a>
-### Nested Schema for `attachment`
-
-Required:
-
-- `instance_id` (String) ID of the `instance` order to attach volume to. Changing this will detach current volume fron current instance and attach to specifed.
-
-Optional:
-
-- `delete_on_termination` (Boolean) Delete the attached volume upon termination of the instance. Default to `false`. Changing this will reattach volume with updated option.
-
 
 <a id="nestedatt--image"></a>
 ### Nested Schema for `image`
@@ -96,5 +85,5 @@ Optional:
 Import is supported using the following syntax:
 
 ```shell
-terraform import t1_compute_volume.example volume-item_id
+terraform import t1_compute_volume.foo_centos7 <volume_item_id>
 ```
