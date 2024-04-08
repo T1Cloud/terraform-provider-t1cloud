@@ -9,6 +9,8 @@ Terraform провайдер позволяет управлять множес�
 
 ## Ресурсы и источники данных
 - Ресурсы:
+    - [compute_backup_container](docs/resources/compute_backup_container.md) - Бэкап-контейнер
+    - [compute_backup_object](docs/resources/compute_backup_object.md) - Дополнительные резеврные копии
     - [compute_instance](docs/resources/compute_instance.md) - Серверы
     - [compute_volume](docs/resources/compute_volume.md) - Диски
     - [compute_volume_attach](docs/resources/compute_volume_attach.md) - Подключение диска к серверу

@@ -1,0 +1,1 @@
+terraform import t1_compute_backup_object.foo_incremental backup_container_order_id/backup_object_id

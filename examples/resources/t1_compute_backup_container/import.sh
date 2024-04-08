@@ -1,0 +1,1 @@
+terraform import t1_compute_backup_container.foo <backup_container_id>
