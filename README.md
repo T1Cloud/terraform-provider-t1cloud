@@ -154,6 +154,9 @@ resource "t1_compute_instance" "vm1" {
   boot_volume = {
     size = 10
   }
+
+# Если установить true, то при удалении сервера диск удалится автоматически.
+  allow_delete_volumes = "false"
  
   flavor = data.t1_compute_flavor.small
   image  = data.t1_compute_image.astra
