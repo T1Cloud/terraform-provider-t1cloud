@@ -151,7 +151,7 @@ resource "t1_compute_instance" "vm1" {
 # Если нужно, чтобы после создания сервер был выключен, используйте state = "off".
   state = "off"
  
-  boot_volume = {
+  system_volume = {
     size = 10
   }
 
@@ -172,7 +172,7 @@ resource "t1_compute_instance" "vm1" {
 resource "t1_compute_instance" "vm2" {
   state = "off"
  
-  boot_volume = {
+  system_volume = {
     size = 10
   }
  
