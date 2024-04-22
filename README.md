@@ -37,7 +37,7 @@ Terraform провайдер позволяет управлять множес�
     - [compute_image](docs/data-sources/compute_image.md) - Образы
     - [compute_volume](docs/data-sources/compute_volume.md) - Диски
     - [compute_snapshot](docs/data-sources/compute_snapshot.md) - Снимки
-    - [compute_ssh_key](docs/data-sources/ssh_keys.md) - SSH-ключи
+    - [compute_ssh_key](docs/data-sources/compute_ssh_key.md) - SSH-ключи
     - [vpc_network](docs/data-sources/vpc_network.md) - Сети
     - [vpc_subnet](docs/data-sources/vpc_subnet.md) - Подсети
     - [vpc_security_group](docs/data-sources/vpc_security_group.md) - Группы безопасности
