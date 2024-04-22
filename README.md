@@ -145,7 +145,7 @@ data "t1_vpc_network" "default" {
 	name = "default"
 }
 
-resource "t1_compute_instance" "vm1" {
+resource "t1_compute_instance" "vm" {
 
 # По умолчанию сервер после создания включен.
 # Если нужно, чтобы после создания сервер был выключен, используйте state = "off".
@@ -169,24 +169,6 @@ resource "t1_compute_instance" "vm1" {
   ]
 }
  
-resource "t1_compute_instance" "vm2" {
-  state = "off"
- 
-  system_volume = {
-    size = 10
-  }
- 
-  flavor = data.t1_compute_flavor.small
-  image  = data.t1_compute_image.astra
- 
-  network_interface = {
-    subnet_id = data.t1_vpc_network.default.subnets[0].id
-  }
-   ssh_keys = [
-    t1_compute_ssh_key.test.id,
-  ]
-}
-
 # Подключение к серверу публичного IP-адреса, если он нужен.
 resource "t1_vpc_vip" "foo" {
   region                  = "ru-central1"
@@ -197,9 +179,8 @@ resource "t1_vpc_vip" "foo" {
   vmac_address            = "30:49:8f:e9:6b:e7"
   fixed_ip                = "10.128.0.61"
   network_interface_ids = [
-    t1_compute_instance.vm1.network_interface.id,
-    t1_compute_instance.vm2.network_interface.id,
-   ]
+    t1_compute_instance.vm1.network_interface.id
+    ]
 }
 
 resource "t1_compute_ssh_key" "test" {
