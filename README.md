@@ -129,20 +129,29 @@ provider "t1" {
 2. Заполните файл в соответствии с примером конфигурации инфраструктуры.
 
 ```hcl
+resource "t1_compute_ssh_key" "test" {
+  name        = "test-ssh"
+  login       = "root"
+  public_keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
+  ]
+}
+
 data "t1_compute_flavor" "small" {
-	vcpus      = 1
-	ram        = 1
-	family     = "general-purpose"
-	cpu_series = "Intel Cascade Lake 2.2 GHz"
-	hardware_group = "public"
+  vcpus      = 1
+  ram        = 1
+  family     = "general-purpose"
+  cpu_series = "Intel Cascade Lake 2.2 GHz"
+  hardware_group = "public"
 }
 
 data "t1_compute_image" "astra" {
-	os_distro  = "astra"
-	os_version = "1.7.3 Орёл"
+  os_distro  = "astra"
+  os_version = "1.7.3 Орёл"
 }
+
 data "t1_vpc_network" "default" {
-	name = "default"
+  name = "default"
 }
 
 resource "t1_compute_instance" "vm" {
@@ -150,45 +159,31 @@ resource "t1_compute_instance" "vm" {
 # По умолчанию сервер после создания включен.
 # Если нужно, чтобы после создания сервер был выключен, используйте state = "off".
   state = "off"
- 
+
+# Если установить true, то при удалении сервера автоматически удалятся .
+  allow_delete_volumes = "false" 
+  
   system_volume = {
     size = 10
   }
-
-# Если установить true, то при удалении сервера диск удалится автоматически.
-  allow_delete_volumes = "false"
- 
   flavor = data.t1_compute_flavor.small
   image  = data.t1_compute_image.astra
- 
+  ssh_keys = [
+    t1_compute_ssh_key.test.id,
+  ]
   network_interface = {
     subnet_id = data.t1_vpc_network.default.subnets[0].id
   }
-   ssh_keys = [
-    t1_compute_ssh_key.test.id,
-  ]
-}
- 
-# Подключение к серверу публичного IP-адреса, если он нужен.
-resource "t1_vpc_vip" "foo" {
-  region                  = "ru-central1"
-  mode                    = "active-active"
-  internet_access_enabled = true
-  subnet_id               = "subnet_id"
-  l2_enabled              = true
-  vmac_address            = "30:49:8f:e9:6b:e7"
-  fixed_ip                = "10.128.0.61"
-  network_interface_ids = [
-    t1_compute_instance.vm1.network_interface.id
-    ]
 }
 
-resource "t1_compute_ssh_key" "test" {
-	name        = "test-ssh"
-	login       = "root"
-	public_keys = [
-	  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCD+ACR4ubu98ti0aJOxL/Nwn6dlV++PCDY4HrkgScacPxIVbgo82P/qJ/VJEc29AbKYLGDsJ1NoK8xp320UCv1FCDHzZMKEeUQU8lfTvpN2hvTQlYp42ooGSsJgp4AM4wVYs8UBfbOerXquV/rQ6t7QiECJXq5e3gNu9C7hioOmw== "
-	]
+# Подключение к серверу публичного IP-адреса, если он нужен.
+resource "t1_vpc_public_ip" "foo" {
+  region = "ru-central1"
+}
+
+resource "t1_compute_floating_ip_associate" "associate" {
+  instance_id = t1_compute_instance.vm.id
+  floating_ip = t1_vpc_public_ip.foo.floating_ip
 }
 ```
 
