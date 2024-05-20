@@ -137,7 +137,7 @@ Required:
 
 Optional:
 
-- `disk_type` (String) Type of boot volume disk (e.g. `Light`, `Basic`). Defaults to `Light`. Changing this will replace resource.
+- `disk_type` (String) Type of boot volume disk (e.g. `Average cluster 1`, `High cluster 3`). Defaults to `Average cluster 1`. Changing this will replace resource.
 
 Read-Only:
 
